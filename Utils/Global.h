@@ -116,14 +116,14 @@ enum synapseType { II = 0, IE = 1, EI = 2, EE = 3, STYPE_UNDEF = -1 };
 //! The default threshold voltage.  If \f$V_m >= V_{thresh}\f$ then the neuron fires.
 #define DEFAULT_Vthresh		(-0.04)
 //! The default time step size.
-#define DEFAULT_dt		(1e-4) // MODEL INDEPENDENT
+#define DEFAULT_dt		(5e-4) // MODEL INDEPENDENT
 //! The default absolute refractory period for inhibitory neurons.
 #define DEFAULT_InhibTrefract	(2.0e-3)
 //! The default absolute refractory period for excitory neurons.
 #define DEFAULT_ExcitTrefract	(3.0e-3)
 
 //! The default synaptic time constant.
-#define DEFAULT_tau		(3e-3)
+#define DEFAULT_tau		(3e-2)
 //! The default synaptic efficiency.
 #define DEFAULT_U		(0.4)
 //! The default synaptic efficiency.
