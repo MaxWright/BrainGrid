@@ -9,7 +9,7 @@
     <!-- Random seed - set to zero to use /dev/random -->
     <Seed value="777"/>
     <!-- State output file name, this name will be overwritten if -o option is specified -->
-    <OutputParams stateOutputFileName="compare/cuda_match.h5"/>
+    <OutputParams stateOutputFileName="compare/single_match.h5"/>
 </SimInfoParams>
 
 <ModelParams>
