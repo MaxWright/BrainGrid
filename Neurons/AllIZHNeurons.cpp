@@ -445,12 +445,16 @@ void AllIZHNeurons::advanceNeuron(const int index, const SimulationInfo *sim_inf
     } else if (Vm >= Vthresh) {
         // should it fire?
         fire(index, sim_info);
+		//cout << "FIRE FIRE FIRE!! index: " << index << " ################# " << endl;
     } else {
         // add noisy thalamic input
         BGFLOAT noise = (*rgNormrnd[0])();
         DEBUG_MID(cout << "ADVANCE NEURON[" << index << "] :: noise = " << noise << endl;)
+        //cout << "ADVANCE NEURON[" << index << "] :: noise = " << noise << endl;
         summationPoint += noise * Inoise; 
-        // IZH03: Izhikevich model integration step
+        //cout << "\tsummationPoint = " << summationPoint << endl;
+        
+		// IZH03: Izhikevich model integration step
         BGFLOAT Vint = Vm * 1000; 
 		Vint = Vint + deltaT * 1000 * (0.04 * Vint * Vint + 5 * Vint + 140 - u + summationPoint);
         u = u + a * (b * Vint - u);
