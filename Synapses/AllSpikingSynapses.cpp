@@ -108,7 +108,7 @@ void AllSpikingSynapses::initSpikeQueue(const BGSIZE iSyn)
 void AllSpikingSynapses::resetSynapse(const BGSIZE iSyn, const BGFLOAT deltaT)
 {
     AllSynapses::resetSynapse(iSyn, deltaT);
-//TODO JEWEL
+//IZH03
 // we probably don't need to call update decay
     //assert( updateDecay(iSyn, deltaT) );
 }
@@ -201,7 +201,6 @@ void AllSpikingSynapses::createSynapse(const BGSIZE iSyn, int source_index, int 
     sourceNeuronIndex[iSyn] = source_index;
 //IZH03: 
     W[iSyn] = synSign(type) * 10.0e-9;
-    //W[iSyn] = synSign(type);
 	//cout << "in createSynapse() - W = " << W[iSyn] << endl;
     this->type[iSyn] = type;
     tau[iSyn] = DEFAULT_tau;
@@ -321,6 +320,7 @@ void AllSpikingSynapses::advanceSynapse(const BGSIZE iSyn, const SimulationInfo 
     BGFLOAT &psr = this->psr[iSyn];
     BGFLOAT &summationPoint = *(this->summationPoint[iSyn]);
 
+	psr = 0;
     // is an input in the queue?
     if (isSpikeQueue(iSyn)) {
         changePSR(iSyn, sim_info->deltaT);
@@ -328,7 +328,7 @@ void AllSpikingSynapses::advanceSynapse(const BGSIZE iSyn, const SimulationInfo 
 
     // decay the post spike response
 //IZH03: must have this line of code  
-    psr *= decay;
+    //psr *= decay;
     // and apply it to the summation point
 #ifdef USE_OMP
 #pragma omp atomic #endif
@@ -352,7 +352,6 @@ void AllSpikingSynapses::changePSR(const BGSIZE iSyn, const BGFLOAT deltaT)
     BGFLOAT &W = this->W[iSyn];
     //BGFLOAT &decay = this->decay[iSyn];
 //IZH03:
-	//psr = 0;
     //psr += ( W / decay );    // calculate psr
     psr += W ;    // calculate psr
 }
