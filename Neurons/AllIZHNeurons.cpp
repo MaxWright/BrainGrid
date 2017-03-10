@@ -2,11 +2,12 @@
  * AllIZHNeurons.cpp
  *
  */
-// Updated 2017/2/8 Jewel 
-// look for "IZH03" for modications
+// Updated 2/8/2017 by Jewel 
+// look for "IZH03" for modifications
 
 #include "AllIZHNeurons.h"
 #include "ParseParamError.h"
+#include <stdlib.h>
 
 // Default constructor
 AllIZHNeurons::AllIZHNeurons() : AllIFNeurons()
@@ -449,8 +450,9 @@ void AllIZHNeurons::advanceNeuron(const int index, const SimulationInfo *sim_inf
     } else {
         // add noisy thalamic input
         BGFLOAT noise = (*rgNormrnd[0])();
-        DEBUG_MID(cout << "ADVANCE NEURON[" << index << "] :: noise = " << noise << endl;)
+        //DEBUG_MID(cout << "ADVANCE NEURON[" << index << "] :: noise = " << noise << endl;)
         //cout << "ADVANCE NEURON[" << index << "] :: noise = " << noise << endl;
+		//BGFLOAT noise = (rand() %2);
         summationPoint += noise * Inoise; 
         //cout << "\tsummationPoint = " << summationPoint << endl;
         

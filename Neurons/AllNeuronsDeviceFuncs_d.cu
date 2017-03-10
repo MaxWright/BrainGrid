@@ -2,8 +2,8 @@
  * AllNeuronsDeviceFuncs.cpp
  *
  */
-// Updated 2017/2/8 Jewel 
-// look for "IZH03" for modications
+// Updated 2/8/2017 Jewel 
+// look for "IZH03" for modifications
 
 
 #include "AllNeuronsDeviceFuncs.h"
