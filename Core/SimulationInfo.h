@@ -29,14 +29,16 @@
 #define _SIMULATIONINFO_H_
 
 #include "Global.h"
+#include "tinyxml.h"
+#include "templatexml.h"
+#include <cereal/archives/xml.hpp>
 
 class IModel;
 class IRecorder;
 class ISInput;
 
 //! Class design to hold all of the parameters of the simulation.
-class SimulationInfo : public TiXmlVisitor
-{
+class SimulationInfo {
 public:
         SimulationInfo() :
             width(0),
@@ -50,12 +52,12 @@ public:
             deltaT(DEFAULT_dt),
             maxRate(0),
             pSummationMap(NULL),
-	    seed(0),
+			seed(0),
             model(NULL),
             simRecorder(NULL),
             pInput(NULL)
-        {
-        }
+        {}
+		
 
         virtual ~SimulationInfo() {}
 

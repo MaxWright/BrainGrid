@@ -39,8 +39,10 @@
 
 #include "Global.h"
 #include "AllSpikingNeurons.h"
+#include <cereal/archives/xml.hpp>
 
 struct AllIFNeuronsDeviceProperties;
+struct ALLIFNeuronsParameters;
 
 class AllIFNeurons : public AllSpikingNeurons
 {
@@ -401,6 +403,58 @@ class AllIFNeurons : public AllSpikingNeurons
          * Min/max values of Vreset.
          */
         BGFLOAT m_starter_Vreset[2];
+
+		public:
+
+		struct ALLIFNeuronsParameters {
+			/**
+			* Min/max values of Iinject.
+			*/
+			BGFLOAT m_Iinject[2];
+
+			/**
+			* Min/max values of Inoise.
+			*/
+			BGFLOAT m_Inoise[2];
+
+			/**
+			* Min/max values of Vthresh.
+			*/
+			BGFLOAT m_Vthresh[2];
+
+			/**
+			* Min/max values of Vresting.
+			*/
+			BGFLOAT m_Vresting[2];
+
+			/**
+			* Min/max values of Vreset.
+			*/
+			BGFLOAT m_Vreset[2];
+
+			/**
+			* Min/max values of Vinit.
+			*/
+			BGFLOAT m_Vinit[2];
+
+			/**
+			* Min/max values of Vthresh.
+			*/
+			BGFLOAT m_starter_Vthresh[2];
+
+			/**
+			* Min/max values of Vreset.
+			*/
+			BGFLOAT m_starter_Vreset[2];
+
+		};
+
+		template<class Archive>
+		void save(Archive & archive, ALLIFNeuronsParameters const & nParams) {
+			archive(nParams.m_Iinject, nParams.m_Inoise, nParams.m_starter_Vthresh,
+				nParams.m_starter_Vreset, nParams.m_Vresting, nParams.m_Vreset,
+				nParams.m_Vinit, nParams.m_starter_Vthresh, nParams.m_starter_Vreset);
+		};
 };
 
 #if defined(USE_GPU)

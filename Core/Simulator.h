@@ -108,6 +108,7 @@ class Simulator
         void serialize(ostream &memory_out, SimulationInfo *sim_info) const;
 
     private:
+
         /**
          * Frees dynamically allocated memory associated with the maps.
          */

@@ -1,6 +1,6 @@
 #include "Model.h"
 
-#include "tinyxml.h"
+//#include "tinyxml.h"
 
 #include "ParseParamError.h"
 #include "Util.h"
@@ -266,3 +266,22 @@ Layout* Model::getLayout()
     return m_layout;
 }
 
+/*-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------*/
+
+namespace cereal {
+
+	template<class Archive>
+	void save(Archive& archive, const Model& model) {
+		archive(model.m_read_params, model.m_conns, model.m_synapses,
+			model.m_layout, model.m_synapseIndexMap);
+	}
+
+	template<class Archive>
+	void load(Archive& archive, Model& model) {
+		archive(model.m_read_params, model.m_conns, model.m_synapses,
+			model.m_layout, model.m_synapseIndexMap);
+	}
+
+}

@@ -49,9 +49,11 @@
 #include "Coordinate.h"
 #include "Layout.h"
 #include "SynapseIndexMap.h"
+#include "templatexml.h"
 
 #include <vector>
 #include <iostream>
+#include <cereal/archives/xml.hpp>
 
 using namespace std;
 
@@ -130,6 +132,8 @@ class Model : public IModel
          *  @param  sim_info    SimulationInfo to refer from.
          */
         virtual void updateHistory(const SimulationInfo *sim_info);
+
+
 
     protected:
 

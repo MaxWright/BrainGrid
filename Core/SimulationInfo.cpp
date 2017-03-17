@@ -139,3 +139,34 @@ void SimulationInfo::printParameters(ostream &output) const
     cout << "\tNumber of simulations to run: " << maxSteps << endl;
 }
 
+/*-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------*/
+
+namespace cereal {
+
+	template<class Archive>
+	void save(Archive& archive, const SimulationInfo& simInfo) {
+		archive(simInfo.width, simInfo.height, simInfo.totalNeurons, simInfo.currentStep,
+			simInfo.maxSteps, simInfo.epochDuration, simInfo.maxFiringRate,
+			simInfo.maxSynapsesPerNeuron, simInfo.maxSynapsesPerNeuron, simInfo.deltaT,
+			simInfo.rgNeuronTypeMap, simInfo.rgEndogenouslyActiveNeuronMap,
+			simInfo.maxFiringRate, simInfo.pSummationMap, simInfo.seed, simInfo.stateOutputFileName,
+			simInfo.stateInputFileName, simInfo.memOutputFileName, simInfo.memInputFileName,
+			simInfo.stimulusInputFileName, simInfo.model, simInfo.simRecorder, simInfo.pInput,
+			simInfo.nParams);
+	}
+
+	template<class Archive>
+	void load(Archive& archive, SimulationInfo& simInfo) {
+		archive(simInfo.width, simInfo.height, simInfo.totalNeurons, simInfo.currentStep,
+			simInfo.maxSteps, simInfo.epochDuration, simInfo.maxFiringRate,
+			simInfo.maxSynapsesPerNeuron, simInfo.maxSynapsesPerNeuron, simInfo.deltaT,
+			simInfo.rgNeuronTypeMap, simInfo.rgEndogenouslyActiveNeuronMap,
+			simInfo.maxFiringRate, simInfo.pSummationMap, simInfo.seed, simInfo.stateOutputFileName,
+			simInfo.stateInputFileName, simInfo.memOutputFileName, simInfo.memInputFileName,
+			simInfo.stimulusInputFileName, simInfo.model, simInfo.simRecorder, simInfo.pInput,
+			simInfo.nParams);
+	}
+
+}
