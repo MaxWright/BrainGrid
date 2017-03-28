@@ -12,101 +12,100 @@
 -----------------------------------------------------------------------------*/
 
 #pragma once
-#include "c:\Users\Destiny\Documents\Cereal\tinyxml\tinyxml.h"
 #include <iostream>
 #include <istream>
 #include <string>
-#include <vector>
-
-
-
+#include <cstdarg>
+#include <sstream>
+#include "tinyxml\tinyxml.h"
 using namespace std;
 
-#define RETURNNAME(name) returnname(#name, (name))
-#define RETURNVALUE(name) returnvalue(#name, (name))
+namespace toXML {
 
-template<class T>
-string returnname(const char * name, const T& val) {
-		return name;
-}
+	#define NAME_VALUE_PAIR(T) make_nvp(#T, (T))
 
-template<class T>
-string returnvalue(const char * name, const T& val) {
-	return name;
-}
+	template<class Type>
+	struct NameValuePair {
 
-#ifndef templatexml_h
-#define templatexml_h
-
-template<class ... Object>
-class templateXML {
-	
-	public:
-
-	TiXmlDocument doc;
+		public:
+		NameValuePair() : name(""), value() {};
+		NameValuePair(char const * n, Type & v) : name(n), value(std::forward<T>(v)) {}
+		string name;
+		Type value;
+	};
 
 
-	templateXML(void);
-	~templateXML(void);
-
-	void operator()(Object ... object);
-	bool process(int index);
-	void saveFile(FILE* saveFile);
-
-	private:
-
-	vector<Object...> inputs;
-	int count = 0;
-
-};
-
-#endif // !templatexml_h
-
-template<class...Object>
-templateXML<Object...>::templateXML(void) {
-
-	TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0", "", "");
-	doc.LinkEndChild(declaration);
-
-}
-
-template<class ...Object>
-inline templateXML<Object...>::~templateXML(void) {
-
-}
-
-template<class... Object>
-inline void templateXML<Object...>::operator()(Object ... object) {
-	inputs = { object... };
-	for (int index = 0; index < inputs.size(); index++) {
-		process(index);
+	template <class T>
+	NameValuePair<T> make_nvp(std::string const & name, T & value){
+		return{ name.c_str(), std::forward<T>(value) };
 	}
 
-}
-
-template<class...Object>
-bool templateXML<Object...>::process(int index) {
-
-	string name = RETURNNAME(inputs[index]);
-	string value = RETURNVALUE(inputs[index]);
-
-	if (count == 0) {
-		TiXmlElement* root = new TiXmlElement(name);
-		doc.LinkEndChild(root);
-		count++;
-	} else {
-
-		TiXmlElement* element = new TiXmlElement(name);
-		doc.LinkEndChild(element);
-
-		TiXmlText* text = new TiXmlText(value);
-		element->LinkEndChild(text);
+	template <class T>
+	NameValuePair<T> make_nvp(const char * name, T & value) {
+		NameValuePair<T> retVal;
+		retVal.name = name;
+		retVal.value = std::forward<T>(value);
+		return retVal;
 	}
-	
-	return true;
+
+
+	#ifndef templatexml_h
+	#define templatexml_h
+
+	class templateXML {
+
+		private:
+
+		TiXmlDocument document;
+		TiXmlElement* root;
+
+		public:
+
+		templateXML(string docName) {
+			TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0", "", "");
+			document.LinkEndChild(declaration);
+
+			root = new TiXmlElement("root");
+			document.LinkEndChild(root);
+
+		}
+
+		~templateXML(void) { }
+
+		template <typename T>
+		void process(T t) {
+			stringstream convert;
+			convert << t.value;
+			string temp = convert.str();
+
+				TiXmlElement* element = new TiXmlElement(t.name);
+				element->LinkEndChild(new TiXmlText(temp));
+				root->LinkEndChild(element);
+
+		}
+		
+		template<typename... Args>
+		void process(Args &&... args) {
+			int dummy2[] = { 0, ((void)process(std::forward<Args>(args)), 0) ... };
+		}
+
+		template<class...Objects>
+		void operator()(Objects && ... args) {
+			process(args...);
+		}
+
+		bool saveFile(FILE* saveFile) {
+			bool successfulSave = false;
+			successfulSave = document.SaveFile(saveFile);
+			return successfulSave;
+
+		}
+
+
+	};
+
+	#endif // !templatexml_h
+
 }
 
-template<class ...Object>
-void templateXML<Object...>::saveFile(FILE* saveFile) {
-	doc.SaveFile(saveFile);
-}
+
