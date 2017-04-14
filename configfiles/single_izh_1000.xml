@@ -38,7 +38,7 @@
         <Dconst maxExc="8" minExc="2" maxInh="2" minInh="2"/>
     </NeuronsParams>
 
-    <SynapsesParams class="AllSpikingSynapses">
+    <SynapsesParams class="AllIZHSpikingSynapses">
     </SynapsesParams>
 
     <ConnectionsParams class="ConnStatic">

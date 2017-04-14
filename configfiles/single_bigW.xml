@@ -9,7 +9,7 @@
     <!-- Random seed - set to zero to use /dev/random -->
     <Seed value="777"/>
     <!-- State output file name, this name will be overwritten if -o option is specified -->
-    <OutputParams stateOutputFileName="compare/cuda.h5"/>
+    <OutputParams stateOutputFileName="compare/single_bigW.h5"/>
 </SimInfoParams>
 
 <ModelParams>
@@ -38,14 +38,14 @@
         <Dconst maxExc="8" minExc="2" maxInh="2" minInh="2"/>
     </NeuronsParams>
 
-    <SynapsesParams class="AllIZHSpikingSynapses">
+    <SynapsesParams class="AllSpikingSynapses">
     </SynapsesParams>
 
     <ConnectionsParams class="ConnStatic">
         <!-- Connection parameters -->
         <StaticConnectionsParams nConnsPerNeuron="999" threshConnsRadius="50" pRewiring="0"/>
         <!-- Connections weight -->
-        <StaticConnectionsWeight minExc="0" maxExc="0.5" minInh="-1" maxInh="0" />
+        <StaticConnectionsWeight minExc="0" maxExc="500" minInh="-1000" maxInh="0" />
     </ConnectionsParams>
 
     <LayoutParams class="FixedLayout">
