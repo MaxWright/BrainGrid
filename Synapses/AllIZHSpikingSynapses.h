@@ -39,7 +39,7 @@
  */
 #pragma once
 
-#include "AllSynapses.h"
+#include "AllSpikingSynapses.h"
 
 struct AllSpikingSynapsesDeviceProperties;
 
@@ -48,7 +48,7 @@ typedef void (*fpPostSynapsesSpikeHit_t)(const BGSIZE, AllSpikingSynapsesDeviceP
 
 #include "AllSpikingNeurons.h"
 
-class AllIZHSpikingSynapses : public AllSynapses
+class AllIZHSpikingSynapses : public AllSpikingSynapses
 {
     public:
         AllIZHSpikingSynapses();

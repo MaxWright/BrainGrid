@@ -3,7 +3,7 @@
 
 #include "AllIZHSpikingSynapses.h"
 
-AllIZHSpikingSynapses::AllIZHSpikingSynapses() : AllSynapses()
+AllIZHSpikingSynapses::AllIZHSpikingSynapses() : AllSpikingSynapses()
 {
     decay = NULL;
     total_delay = NULL;
