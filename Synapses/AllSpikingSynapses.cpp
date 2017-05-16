@@ -1,5 +1,3 @@
-// JEWEL MODIFIED
-
 #include "AllSpikingSynapses.h"
 
 AllSpikingSynapses::AllSpikingSynapses() : AllSynapses()
@@ -108,9 +106,8 @@ void AllSpikingSynapses::initSpikeQueue(const BGSIZE iSyn)
 void AllSpikingSynapses::resetSynapse(const BGSIZE iSyn, const BGFLOAT deltaT)
 {
     AllSynapses::resetSynapse(iSyn, deltaT);
-//IZH03
-// we probably don't need to call update decay
-    //assert( updateDecay(iSyn, deltaT) );
+
+    assert( updateDecay(iSyn, deltaT) );
 }
 
 /*
@@ -199,52 +196,35 @@ void AllSpikingSynapses::createSynapse(const BGSIZE iSyn, int source_index, int 
     summationPoint[iSyn] = sum_point;
     destNeuronIndex[iSyn] = dest_index;
     sourceNeuronIndex[iSyn] = source_index;
-//IZH03: 
     W[iSyn] = synSign(type) * 10.0e-9;
-	//cout << "in createSynapse() - W = " << W[iSyn] << endl;
     this->type[iSyn] = type;
     tau[iSyn] = DEFAULT_tau;
-	//cout << "tau for index " << iSyn << " is " << tau[iSyn] << endl;
 
-    //BGFLOAT tau;
+    BGFLOAT tau;
     switch (type) {
-//IZH03:
-// make delay the same as one step size deltaT
-// tau value?? no references for how tau should be set for Exc and Ihn
         case II:
-            //tau = 6e-3;
-            //tau = 1;
-	    	//delay = 0.8e-3;
-            delay = 5e-4;
+            tau = 6e-3;
+            delay = 0.8e-3;
             break;
         case IE:
-            //tau = 6e-3;
-            //tau = 1;
-	    	//delay = 0.8e-3;
-            delay = 5e-4;
+            tau = 6e-3;
+            delay = 0.8e-3;
             break;
         case EI:
-            //tau = 3e-3;
-            //tau = 1;
-	    	//delay = 0.8e-3;
-            delay = 5e-4;
+            tau = 3e-3;
+            delay = 0.8e-3;
             break;
         case EE:
-            //tau = 3e-3;
-            //tau = 1;
-	    	//delay = 0.8e-3;
-            delay = 5e-4;
-	    	//delay = 1.5e-3;
+            tau = 3e-3;
+            delay = 1.5e-3;
             break;
         default:
             assert( false );
             break;
     }
 
-    //this->tau[iSyn] = tau;
-//IZH03
+    this->tau[iSyn] = tau;
     this->total_delay[iSyn] = static_cast<int>( delay / deltaT ) + 1;
-    //this->total_delay[iSyn] = delay;
 
     // initializes the queues for the Synapses
     initSpikeQueue(iSyn);
@@ -320,15 +300,13 @@ void AllSpikingSynapses::advanceSynapse(const BGSIZE iSyn, const SimulationInfo 
     BGFLOAT &psr = this->psr[iSyn];
     BGFLOAT &summationPoint = *(this->summationPoint[iSyn]);
 
-	psr = 0;
     // is an input in the queue?
     if (isSpikeQueue(iSyn)) {
         changePSR(iSyn, sim_info->deltaT);
     }
 
     // decay the post spike response
-//IZH03: must have this line of code  
-    //psr *= decay;
+    psr *= decay;
     // and apply it to the summation point
 #ifdef USE_OMP
 #pragma omp atomic #endif
@@ -348,17 +326,16 @@ void AllSpikingSynapses::advanceSynapse(const BGSIZE iSyn, const SimulationInfo 
  */
 void AllSpikingSynapses::changePSR(const BGSIZE iSyn, const BGFLOAT deltaT)
 {
-	BGFLOAT &psr = this->psr[iSyn];
+    BGFLOAT &psr = this->psr[iSyn];
     BGFLOAT &W = this->W[iSyn];
-    //BGFLOAT &decay = this->decay[iSyn];
-//IZH03:
-    //psr += ( W / decay );    // calculate psr
-    psr += W ;    // calculate psr
+    BGFLOAT &decay = this->decay[iSyn];
+
+    psr += ( W / decay );    // calculate psr
 }
 
 #endif //!defined(USE_GPU)
 
-/*  IZH03 -  NOT CALLED IN IZH MODEL
+/*
  *  Updates the decay if the synapse selected.
  *
  *  @param  iSyn    Index of the synapse to set.
