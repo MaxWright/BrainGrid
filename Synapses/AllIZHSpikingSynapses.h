@@ -52,22 +52,7 @@ class AllIZHSpikingSynapses : public AllSpikingSynapses
 {
     public:
         AllIZHSpikingSynapses();
-        AllIZHSpikingSynapses(const int num_neurons, const int max_synapses);
         virtual ~AllIZHSpikingSynapses();
-
-        static IAllSynapses* Create() { return new AllIZHSpikingSynapses(); }
-
-        /**
-         *  Setup the internal structure of the class (allocate memories and initialize them).
-         *
-         *  @param  sim_info  SimulationInfo class to read information from.
-         */
-        virtual void setupSynapses(SimulationInfo *sim_info);
-
-        /**
-         *  Cleanup the class (deallocate memories).
-         */
-        virtual void cleanupSynapses();
 
         /**
          *  Reset time varying state vars and recompute decay.
@@ -76,28 +61,6 @@ class AllIZHSpikingSynapses : public AllSpikingSynapses
          *  @param  deltaT   Inner simulation step duration
          */
         virtual void resetSynapse(const BGSIZE iSyn, const BGFLOAT deltaT);
-
-        /**
-         *  Checks the number of required parameters to read.
-         *
-         * @return true if all required parameters were successfully read, false otherwise.
-         */
-        virtual bool checkNumParameters();
-
-        /**
-         *  Attempts to read parameters from a XML file.
-         *
-         *  @param  element TiXmlElement to examine.
-         *  @return true if successful, false otherwise.
-         */
-        virtual bool readParameters(const TiXmlElement& element);
-
-        /**
-         *  Prints out all parameters of the neurons to ostream.
-         *
-         *  @param  output  ostream to send output to.
-         */
-        virtual void printParameters(ostream &output) const;
 
         /**
          *  Create a Synapse and connect it to the model.
@@ -111,55 +74,6 @@ class AllIZHSpikingSynapses : public AllSpikingSynapses
          *  @param  type        Type of the Synapse to create.
          */
         virtual void createSynapse(const BGSIZE iSyn, int source_index, int dest_index, BGFLOAT* sp, const BGFLOAT deltaT, synapseType type);
-
-        /**
-         *  Check if the back propagation (notify a spike event to the pre neuron)
-         *  is allowed in the synapse class.
-         *
-         *  @retrun true if the back propagation is allowed.
-         */
-        virtual bool allowBackPropagation();
-
-    protected:
-        /**
-         *  Setup the internal structure of the class (allocate memories and initialize them).
-         *
-         *  @param  num_neurons   Total number of neurons in the network.
-         *  @param  max_synapses  Maximum number of synapses per neuron.
-         */
-        virtual void setupSynapses(const int num_neurons, const int max_synapses);
-
-        /**
-         *  Initializes the queues for the Synapse.
-         *
-         *  @param  iSyn   index of the synapse to set.
-         */
-        virtual void initSpikeQueue(const BGSIZE iSyn);
-
-        /**
-         *  Updates the decay if the synapse selected.
-         *
-         *  @param  iSyn    Index of the synapse to set.
-         *  @param  deltaT  Inner simulation step duration
-         *  @return true is success.
-         */
-        bool updateDecay(const BGSIZE iSyn, const BGFLOAT deltaT);
-
-        /**
-         *  Sets the data for Synapse to input's data.
-         *
-         *  @param  input  istream to read from.
-         *  @param  iSyn   Index of the synapse to set.
-         */
-        virtual void readSynapse(istream &input, const BGSIZE iSyn);
-
-        /**
-         *  Write the synapse data to the stream.
-         *
-         *  @param  output  stream to print out to.
-         *  @param  iSyn    Index of the synapse to print out.
-         */
-        virtual void writeSynapse(ostream& output, const BGSIZE iSyn) const;
 
 #if defined(USE_GPU)
     public:
@@ -346,12 +260,12 @@ public:
         /**
          *  The decay for the psr.
          */
-        BGFLOAT *decay;
+//        BGFLOAT *decay;
 
         /**
          *  The synaptic time constant \f$\tau\f$ [units=sec; range=(0,100)].
          */
-        BGFLOAT *tau;
+//        BGFLOAT *tau;
 
 #define BYTES_OF_DELAYQUEUE         ( sizeof(uint32_t) / sizeof(uint8_t) )
 #define LENGTH_OF_DELAYQUEUE        ( BYTES_OF_DELAYQUEUE * 8 )
@@ -359,12 +273,12 @@ public:
         /**
          *  The synaptic transmission delay, descretized into time steps.
          */
-        int *total_delay;
+//        int *total_delay;
 
         /**
          *  Pointer to the delayed queue.
          */
-        uint32_t *delayQueue;
+//        uint32_t *delayQueue;
 
         /**
          *  The index indicating the current time slot in the delayed queue
@@ -372,18 +286,18 @@ public:
          *  if it is actually from a synapse. Will need a little help here. -Aaron
          *  Note: This variable can be GLOBAL VARIABLE, but need to modify the code.
          */
-        int *delayIdx;
+//        int *delayIdx;
 
         /**
          *  Length of the delayed queue.
          */
-        int *ldelayQueue;
+//        int *ldelayQueue;
 
     protected:
 };
 
 #if defined(USE_GPU)
-struct AllIZHSpikingSynapsesDeviceProperties : public AllSynapsesDeviceProperties
+struct AllIZHSpikingSynapsesDeviceProperties : public AllSpikingSynapsesDeviceProperties
 {
         /**
          *  The decay for the psr.
