@@ -5,5 +5,5 @@ using namespace std;
 Test::Test() //default constructor sets everything to 0
 {
 	//nothing here except one int 
-	int test = 0;
+	int test = -1;
 }
