@@ -6,5 +6,4 @@ Test::Test() //default constructor sets everything to 0
 {
 	//nothing here except one int 
 	int test = -1;
-	int test2 = -1;
 }
